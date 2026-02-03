@@ -1,22 +1,22 @@
 [
   {
     "id": "1",
-    "name": "全频道直播源",
+    "name": "自用全频道直播源",
     "author": "稳定",
     "type": "ipv4",
     "description": "包含央视、卫视等主流电视频道，稳定清晰，支持倍速播放；适配各种IPTV客户端。",
     "m3u-link": "https://www.liulian.ink/iptv-live/tv/iptv4.m3u",
     "txt-link": "https://www.liulian.ink/iptv-live/tv/iptv4.txt",
-    "updateTime": "2026-01-28"
+    "updateTime": "2026-02-03"
   },
   {
     "id": "2",
-    "name": "地方频道直播源",
+    "name": "自用全频道直播源",
     "author": "优质",
     "type": "ipv6",
-    "description": "包含全国各地地方频道，覆盖省市县各级电视台，实时同步播出；无广告干扰。",
+    "description": "包含央视、卫视等主流电视频道，稳定清晰，支持倍速播放；适配各种IPTV客户端。",
     "m3u-link": "https://www.liulian.ink/iptv-live/tv/iptv6.m3u",
     "txt-link": "https://www.liulian.ink/iptv-live/tv/iptv6.txt",
-    "updateTime": "2026-01-27"
+    "updateTime": "2026-02-03"
   }
 ]
