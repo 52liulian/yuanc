@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "name": "听书TTS合集 🔥",
+    "author": "三舞313",
+    "description": "来自酷安社区@三舞313听书TTS合集 🔥",
+    "link": "data/legado/tts/19db2f5e.json",
+    "updateTime": "2025-02-11",
+    "category": "TTS"
+  },
+  {
+    "id": "2",
+    "name": "月下自酌听书TTS合集",
+    "author": "月下自酌",
+    "description": "来自月下自酌听书TTS合集",
+    "link": "data/legado/tts/856adf0e.json",
+    "updateTime": "2025-02-11",
+    "category": "TTS"
+  },
+  {
+    "id": "3",
+    "name": "暗香听书TTS合集",
+    "author": "暗香",
+    "description": "来自暗香听书TTS合集", 
+    "link": "data/legado/tts/a03fcd8c.json",
+    "updateTime": "2025-02-11",
+    "category": "TTS"
+  },
+  {
+    "id": "4",
+    "name": "千仞云听书TTS合集",
+    "author": "千仞云",
+    "description": "来自千仞云听书TTS合集", 
+    "link": "data/legado/tts/12212706.json",
+    "updateTime": "2025-02-11",
+    "category": "TTS"
+  },
+  {
+    "id": "5",
+    "name": "酷安@墨迹染流年分享的姬鲁听书TTS合集",
+    "author": "墨迹染流年",
+    "description": "来自酷安社区@墨迹染流年分享的姬鲁听书TTS合集", 
+    "link": "data/legado/tts/5d6324c5.json",
+    "updateTime": "2025-02-11",
+    "category": "TTS"
+  }
+]

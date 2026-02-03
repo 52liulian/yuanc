@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "name": "七七1月28日纯书源",
+    "author": "纯净",
+    "description": "涵盖全网主流网络小说，实时更新，无广告，支持缓存和章节跳转；支持开源阅读、微信读书第三方导入。",
+    "link": "https://www.yckceo.com/yuedu/shuyuans/json/id/1042.json",
+    "updateTime": "2026-01-28",
+    "category": "小说"
+  },
+  {
+    "id": "2",
+    "name": "1000 个纯小说书源",
+    "author": "tickmao",
+    "description": "聚合多平台优质书源，每周更新。",
+    "link": "https://cdn.jsdelivr.net/gh/tickmao/Novel@master/sources/legado/full.json",
+    "updateTime": "2026-01-14",
+    "category": "小说"
+  }
+]

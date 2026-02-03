@@ -1,0 +1,18 @@
+[
+  {
+    "articleStyle": 0,
+    "customOrder": 0,
+    "enableJs": true,
+    "enabled": true,
+    "loadWithBaseUrl": true,
+    "ruleArticles": "id.content@h3",
+    "ruleLink": "a@href",
+    "ruleTitle": "a@textNodes",
+    "singleUrl": true,
+    "sortUrl": "首页::http://yuanc.liulian.ink",
+    "sourceGroup": "书源",
+    "sourceIcon": "http://yuanc.liulian.ink/favicon.ico",
+    "sourceName": "榴莲源仓",
+    "sourceUrl": "http://yuanc.liulian.ink"
+  }
+]

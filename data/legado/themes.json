@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "name": "微信阅读 - 日间 🔥",
+    "author": "未知",
+    "description": "微信阅读 - 日间 🔥",
+    "link": "data/legado/themes/gfh24.json",
+    "updateTime": "2025-02-11",
+    "category": "主题"
+  },
+  {
+    "id": "2",
+    "name": "微信阅读 - 夜间 🔥",
+    "author": "未知",
+    "description": "微信阅读 - 夜间 🔥",
+    "link": "data/legado/themes/eew22rf.json",
+    "updateTime": "2025-02-11",
+    "category": "主题"
+  }
+]

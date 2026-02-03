@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>源仓库 - 开源阅读&影视仓管理平台</title>
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="源仓库是一个开源的阅读和影视仓管理平台，提供优质稳定的网络小说和视频源，支持用户提交和分享优质源。">
+    <meta name="keywords" content="源仓库,开源阅读,影视仓,订阅源,网络小说源,视频源,资源分享,源管理">
+    <meta name="author" content="源仓库团队">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="language" content="zh-CN">
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="源仓库 - 开源阅读&影视仓管理平台">
+    <meta property="og:description" content="源仓库是一个开源的阅读和影视仓管理平台，提供优质稳定的网络小说和视频源，支持用户提交和分享优质源。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" id="og-url" content="">
+    <meta property="og:image" content="favicon.ico">
+    <meta property="og:site_name" content="源仓库">
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="源仓库 - 开源阅读&影视仓管理平台">
+    <meta name="twitter:description" content="源仓库是一个开源的阅读和影视仓管理平台，提供优质稳定的网络小说和视频源，支持用户提交和分享优质源。">
+    <meta name="twitter:image" content="favicon.ico">
+    <!-- 引入Tailwind CSS本地版本 -->
+    <script src="css/tailwindcss.js"></script>
+    <!-- 配置Tailwind自定义主题 -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36BFFA',
+                        success: '#22C55E',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自动获取网站地址 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取当前页面的完整URL
+            const currentUrl = window.location.href;
+            const currentOrigin = window.location.origin;
+            const currentPath = window.location.pathname;
+            const baseUrl = currentOrigin + currentPath;
+            
+            // 更新Open Graph URL
+            const ogUrlMeta = document.getElementById('og-url');
+            if (ogUrlMeta) {
+                ogUrlMeta.content = baseUrl;
+            }
+            
+            // 更新结构化数据中的URL
+            const webSiteScript = document.querySelector('script[type="application/ld+json"]:nth-of-type(1)');
+            if (webSiteScript) {
+                try {
+                    const webSiteData = JSON.parse(webSiteScript.textContent);
+                    webSiteData.url = baseUrl;
+                    webSiteData.creator.url = baseUrl;
+                    webSiteScript.textContent = JSON.stringify(webSiteData, null, 2);
+                } catch (error) {
+                    console.error('Error updating WebSite structured data:', error);
+                }
+            }
+            
+            const itemListScript = document.querySelector('script[type="application/ld+json"]:nth-of-type(2)');
+            if (itemListScript) {
+                try {
+                    const itemListData = JSON.parse(itemListScript.textContent);
+                    itemListData.itemListElement.forEach(item => {
+                        if (item.url && item.url.startsWith('#')) {
+                            item.url = baseUrl + item.url;
+                        }
+                    });
+                    itemListScript.textContent = JSON.stringify(itemListData, null, 2);
+                } catch (error) {
+                    console.error('Error updating ItemList structured data:', error);
+                }
+            }
+        });
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-lg transition-all hover:bg-primary/90 hover:shadow-md flex items-center justify-center;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-white px-4 py-2 rounded-lg transition-all hover:bg-secondary/90 hover:shadow-md flex items-center justify-center;
+            }
+            .btn-success {
+                @apply bg-success text-white px-3 py-1 rounded-lg text-sm transition-all hover:bg-success/90 hover:shadow-md flex items-center justify-center;
+            }
+            .form-input {
+                @apply w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary dark:bg-gray-800 dark:border-gray-700 dark:text-white;
+            }
+            .form-label {
+                @apply block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300;
+            }
+        }
+    </style>
+    <!-- 引入Font Awesome图标本地版本 -->
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <style>
+        /* 深色模式样式 */
+        .dark {
+            color-scheme: dark;
+        }
+        
+        .dark body {
+            @apply bg-gray-900 text-gray-100;
+        }
+        
+        .dark header {
+            @apply bg-gray-800 shadow-gray-700;
+        }
+        
+        .dark .bg-white {
+            @apply bg-gray-800;
+        }
+        
+        .dark .bg-gray-50 {
+            @apply bg-gray-900;
+        }
+        
+        .dark .bg-gray-100 {
+            @apply bg-gray-700;
+        }
+        
+        .dark .text-gray-600 {
+            @apply text-gray-300;
+        }
+        
+        .dark .text-gray-700 {
+            @apply text-gray-200;
+        }
+        
+        .dark .text-gray-800 {
+            @apply text-gray-100;
+        }
+        
+        .dark .border-gray-100 {
+            @apply border-gray-700;
+        }
+        
+        .dark .border-gray-200 {
+            @apply border-gray-700;
+        }
+        
+        .dark .shadow-sm {
+            @apply shadow-gray-700/20;
+        }
+        
+        .dark .shadow-lg {
+            @apply shadow-gray-700/50;
+        }
+        
+        /* 平滑过渡 */
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50 text-dark min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-primary text-2xl"></i>
+                <span class="text-xl font-bold text-primary">源仓库</span>
+            </a>
+
+            <!-- 桌面端导航 -->
+            <nav class="hidden md:flex items-center gap-6">
+                <a href="#home" class="font-medium hover:text-primary">首页</a>
+                <a href="#book-source" class="font-medium hover:text-primary">开源阅读</a>
+                <a href="#video-source" class="font-medium hover:text-primary">影视仓</a>
+                <a href="#iptv-source" class="font-medium hover:text-primary">IPTV</a>
+                <a href="#download" class="font-medium hover:text-primary">软件下载</a>
+                <a href="#submit" class="font-medium hover:text-primary">提交源</a>
+                <a href="#about" class="font-medium hover:text-primary">关于我们</a>
+            </nav>
+
+            <!-- 搜索按钮 + 深色模式切换 + 移动端菜单按钮 -->
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <!-- 搜索图标按钮 -->
+                    <button id="search-toggle" class="text-gray-600 hover:text-primary transition-colors">
+                        <i class="fa-solid fa-search text-lg"></i>
+                    </button>
+                    <!-- 搜索框（默认隐藏） -->
+                    <div id="search-container" class="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg p-2 hidden">
+                        <input id="search-input" type="text" placeholder="搜索源名称/描述..." class="form-input w-full">
+                    </div>
+                </div>
+                <button id="theme-toggle" class="text-gray-600 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-moon text-lg"></i>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 移动端导航菜单（默认隐藏） -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100">
+            <div class="container mx-auto px-4 py-2 flex flex-col gap-3">
+                <a href="#home" class="py-2 font-medium hover:text-primary">首页</a>
+                <a href="#book-source" class="py-2 font-medium hover:text-primary">开源阅读</a>
+                <a href="#video-source" class="py-2 font-medium hover:text-primary">影视仓</a>
+                <a href="#iptv-source" class="py-2 font-medium hover:text-primary">IPTV</a>
+                <a href="#download" class="py-2 font-medium hover:text-primary">软件下载</a>
+                <a href="#submit" class="py-2 font-medium hover:text-primary">提交源</a>
+                <a href="#about" class="py-2 font-medium hover:text-primary">关于我们</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- 首页轮播/核心介绍区 -->
+        <section id="home" class="bg-gradient-to-r from-primary/90 to-secondary/90 text-white py-16 md:py-24 rounded-xl mb-12">
+            <div class="container mx-auto px-4 flex flex-col items-center text-center">
+                <h1 class="text-3xl md:text-5xl font-bold mb-4">开源阅读 & 影视仓 & IPTV 订阅源管理</h1>
+                <p class="text-lg md:text-xl mb-8 max-w-2xl opacity-90">汇聚优质免费开源书源、影视仓、IPTV直播源，一站式管理、分享、获取，助力极致阅读/观影/直播体验</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#book-source" class="btn-primary w-full sm:w-auto">
+                        <i class="fa-solid fa-book mr-2"></i> 查看开源阅读
+                    </a>
+                    <a href="#video-source" class="btn-secondary w-full sm:w-auto">
+                        <i class="fa-solid fa-film mr-2"></i> 查看影视仓
+                    </a>
+                    <a href="#iptv-source" class="bg-purple-600 text-white px-6 py-3 rounded-lg transition-all hover:bg-purple-700 hover:shadow-md w-full sm:w-auto flex items-center justify-center">
+                        <i class="fa-solid fa-tv mr-2"></i> 查看IPTV
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- 开源阅读区 -->
+        <section id="book-source" class="mb-16">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fa-solid fa-book text-primary text-2xl"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">开源阅读</h2>
+            </div>
+
+            <!-- 类型筛选 -->
+            <div class="flex flex-wrap gap-2 mb-8">
+                <span class="px-4 py-2 text-gray-600">类型:</span>
+                <button class="book-type-filter-btn px-4 py-2 rounded-lg bg-primary text-white flex items-center justify-center" data-filter-type="all">全部</button>
+                <button class="book-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="book">书源</button>
+                <button class="book-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="subscribe">订阅源</button>
+                <button class="book-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="purify">净化规则</button>
+                <button class="book-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="typesetting">阅读排版</button>
+                <button class="book-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="theme">主题</button>
+                <button class="book-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="tts">朗读引擎</button>
+            </div>
+
+            <!-- 书源列表 -->
+            <div id="book-source-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- 书源卡片将通过JavaScript动态生成 -->
+            </div>
+
+            <!-- 加载更多按钮 -->
+            <div class="mt-10 text-center">
+                <button class="px-6 py-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center mx-auto">
+                    <i class="fa-solid fa-spinner mr-2"></i> 加载更多
+                </button>
+            </div>
+        </section>
+
+        <!-- 影视仓区 -->
+        <section id="video-source" class="mb-16">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fa-solid fa-film text-primary text-2xl"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">影视仓</h2>
+            </div>
+
+            <!-- 类型筛选 -->
+            <div class="flex flex-wrap gap-2 mb-8">
+                <span class="px-4 py-2 text-gray-600">类型:</span>
+                <button class="video-type-filter-btn px-4 py-2 rounded-lg bg-primary text-white flex items-center justify-center" data-filter-type="all">全部</button>
+                <button class="video-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="single">单仓</button>
+                <button class="video-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="multiple">多仓</button>
+            </div>
+
+            <!-- 影视源列表 -->
+            <div id="video-source-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- 影视源卡片将通过JavaScript动态生成 -->
+            </div>
+
+            <!-- 加载更多按钮 -->
+            <div class="mt-10 text-center">
+                <button class="px-6 py-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center mx-auto">
+                    <i class="fa-solid fa-spinner mr-2"></i> 加载更多
+                </button>
+            </div>
+        </section>
+
+        <!-- IPTV区 -->
+        <section id="iptv-source" class="mb-16">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fa-solid fa-tv text-primary text-2xl"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">IPTV</h2>
+            </div>
+
+            <!-- 类型筛选 -->
+            <div class="flex flex-wrap gap-2 mb-8">
+                <span class="px-4 py-2 text-gray-600">类型:</span>
+                <button class="iptv-type-filter-btn px-4 py-2 rounded-lg bg-primary text-white flex items-center justify-center" data-filter-type="all">全部</button>
+                <button class="iptv-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="ipv4">IPv4</button>
+                <button class="iptv-type-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center" data-filter-type="ipv6">IPv6</button>
+            </div>
+
+            <!-- IPTV源列表 -->
+            <div id="iptv-source-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- IPTV源卡片将通过JavaScript动态生成 -->
+            </div>
+
+            <!-- 加载更多按钮 -->
+            <div class="mt-10 text-center">
+                <button class="px-6 py-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center mx-auto">
+                    <i class="fa-solid fa-spinner mr-2"></i> 加载更多
+                </button>
+            </div>
+        </section>
+
+        <!-- 软件下载区 -->
+        <section id="download" class="mb-16 bg-white p-8 rounded-xl shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fa-solid fa-download text-primary text-2xl"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">软件下载</h2>
+            </div>
+
+            <div id="download-source-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 软件下载卡片将通过JavaScript动态生成 -->
+            </div>
+        </section>
+
+        <!-- 源提交区 -->
+        <section id="submit" class="mb-16 bg-white p-8 rounded-xl shadow-sm">
+            <div class="flex flex-col items-center text-center mb-8">
+                <i class="fa-brands fa-github text-primary text-4xl mb-6"></i>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">前往 GitHub 投稿</h2>
+                <p class="text-gray-600 max-w-2xl mb-4">分享你手中的优质开源阅读/影视仓/iptv直播源，帮助更多用户，一起共建开源资源生态</p>
+                <p class="text-gray-600 max-w-2xl mb-8">点击下方按钮跳转到 GitHub 提交书源。需要 GitHub 账号登录。</p>
+                <a href="https://github.com/52liulian/yuanc/issues/new?template=submit-source.yml" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center justify-center text-lg px-8 py-4 mb-8">
+                    <i class="fa-brands fa-github mr-3 text-xl"></i> 前往 GitHub 投稿
+                </a>
+            </div>
+
+
+        </section>
+
+        <!-- 关于我们区 -->
+        <section id="about" class="mb-16 bg-white p-8 rounded-xl shadow-sm">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">关于源仓库</h2>
+                <p class="text-gray-600 mb-6">源仓库是一个<strong>开源、免费、非盈利</strong>的订阅源管理平台，专注于为用户提供优质的开源阅读和影视仓。</p>
+                <p class="text-gray-600 mb-8">我们不存储任何资源文件，所有订阅源均由用户分享，仅提供信息展示和链接整理服务。如有侵权，请联系我们删除相关内容。</p>
+                <div class="flex justify-center gap-6">
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+                        <i class="fa-brands fa-weixin text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+                        <i class="fa-solid fa-envelope text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部信息栏 -->
+    <footer class="bg-dark text-gray-400 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2">© 2026 源仓库 - 开源阅读&影视仓管理平台</p>
+            <p class="text-sm">本平台为非盈利开源项目，仅用于技术交流，请勿用于商业用途</p>
+        </div>
+    </footer>
+
+    <!-- 源详情弹窗（默认隐藏） -->
+    <div id="source-detail-modal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <!-- 弹窗头部 -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modal-title" class="text-xl font-bold text-primary">源详情</h3>
+                    <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700 transition-colors">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- 弹窗内容 -->
+                <div class="flex flex-col gap-4 mb-6">
+                    <div>
+                        <span class="form-label">源类型</span>
+                        <span id="modal-type" class="px-2 py-1 bg-gray-100 rounded text-sm">未知</span>
+                    </div>
+                    <div id="modal-link-section">
+                        <span class="form-label">订阅链接</span>
+                        <div class="flex gap-2">
+                            <input id="modal-link" type="text" readonly class="form-input bg-gray-50">
+                            <button id="copy-modal-link" class="btn-primary px-3 py-2 text-sm whitespace-nowrap">
+                                <i class="fa-solid fa-copy mr-1"></i> 复制
+                            </button>
+                        </div>
+                    </div>
+                    <!-- IPTV链接部分 -->
+                    <div id="iptv-links-section" class="hidden">
+                        <div class="flex flex-col gap-4">
+                            <div>
+                                <span class="form-label">M3U 链接</span>
+                                <div class="flex gap-2">
+                                    <input id="modal-m3u-link" type="text" readonly class="form-input bg-gray-50">
+                                    <button id="copy-m3u-link" class="btn-primary px-3 py-2 text-sm whitespace-nowrap">
+                                        <i class="fa-solid fa-copy mr-1"></i> 复制
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="form-label">TXT 链接</span>
+                                <div class="flex gap-2">
+                                    <input id="modal-txt-link" type="text" readonly class="form-input bg-gray-50">
+                                    <button id="copy-txt-link" class="btn-primary px-3 py-2 text-sm whitespace-nowrap">
+                                        <i class="fa-solid fa-copy mr-1"></i> 复制
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="form-label">源描述</span>
+                        <p id="modal-desc" class="text-gray-600 whitespace-pre-line">——</p>
+                    </div>
+                </div>
+
+                <!-- 弹窗底部 -->
+                <div class="flex justify-end">
+                    <button id="confirm-modal-btn" class="btn-primary">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript 核心功能 -->
+    <script>
+        // 工具函数
+        const utils = {
+            // 防抖函数
+            debounce: (func, wait) => {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            },
+
+            // 节流函数
+            throttle: (func, limit) => {
+                let inThrottle;
+                return function executedFunction(...args) {
+                    if (!inThrottle) {
+                        func.apply(this, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                };
+            },
+
+            // 将相对链接转换为完整链接
+            getFullUrl: (relativeUrl) => {
+                if (!relativeUrl) return '';
+                
+                // 检查是否已经是完整URL
+                if (relativeUrl.startsWith('http://') || relativeUrl.startsWith('https://')) {
+                    return relativeUrl;
+                }
+                
+                // 构建完整URL
+                const baseUrl = window.location.origin + window.location.pathname;
+                const fullUrl = new URL(relativeUrl, baseUrl).href;
+                return fullUrl;
+            }
+
+        };
+
+        // 1. 数据管理模块
+        class DataManager {
+            // 数据缓存
+            static dataCache = {};
+
+            static async loadData(type) {
+                try {
+                    // 添加时间戳参数，防止浏览器缓存
+                    const timestamp = new Date().getTime();
+                    let filePath;
+                    
+                    // 根据类型确定文件路径
+                    switch (type) {
+                        case 'books':
+                            filePath = `data/legado/books.json`;
+                            break;
+                        case 'Rss':
+                            filePath = `data/legado/rss.json`;
+                            break;
+                        case 'purify':
+                            filePath = `data/legado/purify.json`;
+                            break;
+                        case 'readConfig':
+                            filePath = `data/legado/readConfig.json`;
+                            break;
+                        case 'themes':
+                            filePath = `data/legado/themes.json`;
+                            break;
+                        case 'tts':
+                            filePath = `data/legado/tts.json`;
+                            break;
+                        case 'videos':
+                            filePath = `data/ysc/videos.json`;
+                            break;
+                        case 'iptv':
+                            filePath = `data/iptv/iptv.json`;
+                            break;
+                        case 'download':
+                            filePath = `data/download.json`;
+                            break;
+                        default:
+                            filePath = `data/${type}.json`;
+                    }
+                    
+                    console.log(`Loading data from: ${filePath}`);
+                    
+                    const response = await fetch(`${filePath}?v=${timestamp}`, {
+                        cache: 'reload' // 强制重新加载，不使用缓存
+                    });
+                    
+                    console.log(`Response status for ${type}: ${response.status}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Failed to load ${type} data: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log(`Loaded ${type} data:`, data);
+                    
+                    // 更新缓存
+                    this.dataCache[type] = data;
+                    return data;
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    // 出错时返回缓存数据（如果有），否则返回空数组
+                    return this.dataCache[type] || [];
+                }
+            }
+
+            static filterData(data, filters) {
+                return data.filter(item => {
+                    if (filters.category && item.category !== filters.category) {
+                        return false;
+                    }
+                    if (filters.status && item.status !== filters.status) {
+                        return false;
+                    }
+                    if (filters.search) {
+                        const searchLower = filters.search.toLowerCase();
+                        return item.name.toLowerCase().includes(searchLower) || 
+                               item.description.toLowerCase().includes(searchLower);
+                    }
+                    return true;
+                });
+            }
+
+            static sortData(data, sortBy) {
+                return [...data].sort((a, b) => {
+                    if (sortBy === 'updateTime') {
+                        return new Date(b.updateTime) - new Date(a.updateTime);
+                    }
+                    if (sortBy === 'name') {
+                        return a.name.localeCompare(b.name);
+                    }
+                    return 0;
+                });
+            }
+        }
+
+        // 2. UI渲染模块
+        class UIRenderer {
+            static getStatusClass(status) {
+                switch (status) {
+                    case '稳定':
+                        return 'bg-green-100 text-green-700';
+                    case '优质':
+                        return 'bg-blue-100 text-blue-700';
+                    case '最新':
+                        return 'bg-purple-100 text-purple-700';
+                    default:
+                        return 'bg-gray-100 text-gray-700';
+                }
+            }
+
+            static createCard(item, type) {
+                if (!item) return null;
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow-sm card-hover p-6 flex flex-col';
+                
+                // 转义用户输入，防止XSS攻击
+                const escapeHtml = (unsafe) => {
+                    if (!unsafe) return '';
+                    return unsafe
+                        .replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                };
+                
+                // 转换为完整链接
+                const fullLink = utils.getFullUrl(item.link);
+                const fullM3uLink = item['m3u-link'] ? utils.getFullUrl(item['m3u-link']) : '';
+                const fullTxtLink = item['txt-link'] ? utils.getFullUrl(item['txt-link']) : '';
+                
+                // 确定导入路径
+                const getImportPath = (sourceType) => {
+                    switch (sourceType) {
+                        case 'book':
+                            return 'bookSource';
+                        case 'Rss':
+                            return 'rsssource';
+                        case 'purify':
+                            return 'replaceRule';
+                        case 'typesetting':
+                            return 'textTocRule';
+                        case 'tts':
+                            return 'httpTTS';
+                        case 'theme':
+                            return 'theme';
+                        case 'readConfig':
+                            return 'readConfig';
+                        case 'dictRule':
+                            return 'dictRule';
+                        default:
+                            return 'bookSource';
+                    }
+                };
+                
+                // 生成一键导入链接
+                const importPath = getImportPath(item.sourceType);
+                const importLink = `yuedu://${importPath}/importonline?src=${encodeURIComponent(fullLink)}`;
+                
+                // 获取类型标签颜色
+                const getTypeColorClass = (sourceType) => {
+                    switch (sourceType) {
+                        case 'book':
+                            return 'bg-blue-100 text-blue-700';
+                        case 'Rss':
+                        case 'subscribe':
+                            return 'bg-green-100 text-green-700';
+                        case 'purify':
+                            return 'bg-purple-100 text-purple-700';
+                        case 'typesetting':
+                            return 'bg-yellow-100 text-yellow-700';
+                        case 'tts':
+                            return 'bg-pink-100 text-pink-700';
+                        case 'theme':
+                            return 'bg-indigo-100 text-indigo-700';
+                        case 'readConfig':
+                            return 'bg-orange-100 text-orange-700';
+                        case 'dictRule':
+                            return 'bg-teal-100 text-teal-700';
+                        case 'video':
+                        case 'single':
+                            return 'bg-cyan-100 text-cyan-700';
+                        case 'multiple':
+                            return 'bg-lime-100 text-lime-700';
+                        case 'iptv':
+                            return 'bg-red-100 text-red-700';
+                        case 'ipv4':
+                            return 'bg-blue-100 text-blue-700';
+                        case 'ipv6':
+                            return 'bg-purple-100 text-purple-700';
+                        default:
+                            return 'bg-gray-100 text-gray-700';
+                    }
+                };
+                
+                // 获取类型名称
+                const getTypeName = (sourceType) => {
+                    switch (sourceType) {
+                        case 'book':
+                            return '书源';
+                        case 'Rss':
+                        case 'subscribe':
+                            return '订阅源';
+                        case 'purify':
+                            return '净化规则';
+                        case 'typesetting':
+                            return '阅读排版';
+                        case 'tts':
+                            return '朗读引擎';
+                        case 'theme':
+                            return '主题';
+                        case 'readConfig':
+                            return '阅读配置';
+                        case 'dictRule':
+                            return '词典规则';
+                        case 'video':
+                        case 'single':
+                            return '单仓';
+                        case 'multiple':
+                            return '多仓';
+                        case 'iptv':
+                            return 'IPTV';
+                        case 'ipv4':
+                            return 'IPv4';
+                        case 'ipv6':
+                            return 'IPv6';
+                        default:
+                            return '其他';
+                    }
+                };
+                
+                // 获取当前类型
+                let currentType;
+                if (type === 'video' && item.type) {
+                    // 对于视频数据，使用item.type作为类型
+                    currentType = item.type === '单仓' ? 'single' : 'multiple';
+                } else if (type === 'iptv' && item.type) {
+                    // 对于IPTV数据，使用item.type作为类型
+                    currentType = item.type.toLowerCase();
+                } else {
+                    // 对于其他数据，使用item.sourceType || type
+                    currentType = item.sourceType || type;
+                }
+                const typeColorClass = getTypeColorClass(currentType);
+                const typeName = getTypeName(currentType);
+                
+                let actionButtons = '';
+                if (type === 'book' || item.sourceType === 'book' || item.sourceType === 'Rss' || item.sourceType === 'purify' || item.sourceType === 'typesetting' || item.sourceType === 'tts' || item.sourceType === 'theme' || item.sourceType === 'readConfig' || item.sourceType === 'dictRule') {
+                    actionButtons = `
+                        <div class="flex gap-2 mt-auto">
+                            <button class="source-detail-btn btn-primary px-3 py-1 text-sm flex-1" data-type="${escapeHtml(item.sourceType || type)}" data-name="${escapeHtml(item.name)}" data-link="${escapeHtml(fullLink)}" data-desc="${escapeHtml(item.description)}">
+                                <i class="fa-solid fa-copy mr-1"></i> 复制链接
+                            </button>
+                            <button class="book-import-btn btn-success flex-1" data-link="${importLink}">
+                                <i class="fa-solid fa-download mr-1"></i> 一键导入
+                            </button>
+                        </div>
+                    `;
+                } else if (type === 'iptv') {
+                    actionButtons = `
+                        <div class="flex gap-2 mt-auto">
+                            <button class="source-detail-btn btn-primary px-3 py-1 text-sm w-full" data-type="iptv" data-name="${escapeHtml(item.name)}" data-m3u-link="${escapeHtml(fullM3uLink)}" data-txt-link="${escapeHtml(fullTxtLink)}" data-desc="${escapeHtml(item.description)}">
+                                <i class="fa-solid fa-copy mr-1"></i> 查看链接
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    actionButtons = `
+                        <div class="flex gap-2 mt-auto">
+                            <button class="source-detail-btn btn-primary px-3 py-1 text-sm w-full" data-type="${escapeHtml(type)}" data-name="${escapeHtml(item.name)}" data-link="${escapeHtml(fullLink)}" data-desc="${escapeHtml(item.description)}">
+                                <i class="fa-solid fa-copy mr-1"></i> 复制链接
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                card.innerHTML = `
+                    <div class="relative mb-2">
+                        <div class="flex flex-wrap items-start gap-2">
+                            <span class="px-2 py-1 ${typeColorClass} rounded text-xs">${escapeHtml(typeName)}</span>
+                            <h3 class="font-bold text-lg flex-1">${escapeHtml(item.name)}</h3>
+                        </div>
+                        ${item.author ? `<div class="absolute top-0 right-0 bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">${escapeHtml(item.author)}</div>` : ''}
+                    </div>
+                    <span class="text-xs text-gray-500 mb-4 block">更新时间：${escapeHtml(item.updateTime)}</span>
+                    <p class="text-gray-600 text-sm mb-6 line-clamp-2">${escapeHtml(item.description ? item.description.split(';')[0] : '')}</p>
+                    ${actionButtons}
+                `;
+                return card;
+            }
+
+            static renderBooks(books) {
+                console.log('Rendering books:', books);
+                const container = document.getElementById('book-source-list');
+                console.log('Book source container:', container);
+                if (container) {
+                    container.innerHTML = '';
+                    if (books && books.length > 0) {
+                        books.forEach(book => {
+                            console.log('Creating card for book:', book);
+                            const card = this.createCard(book, 'book');
+                            if (card) {
+                                container.appendChild(card);
+                            }
+                        });
+                    } else {
+                        console.log('No books to render');
+                        container.innerHTML = '<div class="text-center py-10 text-gray-500">暂无数据</div>';
+                    }
+                } else {
+                    console.error('Book source container not found');
+                }
+            }
+
+            static renderVideos(videos) {
+                console.log('Rendering videos:', videos);
+                const container = document.getElementById('video-source-list');
+                console.log('Video source container:', container);
+                if (container) {
+                    container.innerHTML = '';
+                    if (videos && videos.length > 0) {
+                        videos.forEach(video => {
+                            console.log('Creating card for video:', video);
+                            const card = this.createCard(video, 'video');
+                            if (card) {
+                                container.appendChild(card);
+                            }
+                        });
+                    } else {
+                        console.log('No videos to render');
+                        container.innerHTML = '<div class="text-center py-10 text-gray-500">暂无数据</div>';
+                    }
+                } else {
+                    console.error('Video source container not found');
+                }
+            }
+
+            static renderIptv(iptvList) {
+                console.log('Rendering IPTV:', iptvList);
+                const container = document.getElementById('iptv-source-list');
+                console.log('IPTV source container:', container);
+                if (container) {
+                    container.innerHTML = '';
+                    if (iptvList && iptvList.length > 0) {
+                        iptvList.forEach(iptv => {
+                            console.log('Creating card for IPTV:', iptv);
+                            const card = this.createCard(iptv, 'iptv');
+                            if (card) {
+                                container.appendChild(card);
+                            }
+                        });
+                    } else {
+                        console.log('No IPTV to render');
+                        container.innerHTML = '<div class="text-center py-10 text-gray-500">暂无数据</div>';
+                    }
+                } else {
+                    console.error('IPTV source container not found');
+                }
+            }
+
+            static renderDownloads(downloads) {
+                console.log('Rendering downloads:', downloads);
+                const container = document.getElementById('download-source-list');
+                console.log('Download source container:', container);
+                if (container) {
+                    container.innerHTML = '';
+                    if (downloads && downloads.length > 0) {
+                        downloads.forEach(download => {
+                            console.log('Creating card for download:', download);
+                            const card = this.createDownloadCard(download);
+                            if (card) {
+                                container.appendChild(card);
+                            }
+                        });
+                    } else {
+                        console.log('No downloads to render');
+                        container.innerHTML = '<div class="text-center py-10 text-gray-500">暂无数据</div>';
+                    }
+                } else {
+                    console.error('Download source container not found');
+                }
+            }
+
+            static createDownloadCard(item) {
+                if (!item) return null;
+                
+                const card = document.createElement('div');
+                card.className = 'bg-gray-50 rounded-lg p-6 transition-all hover:shadow-md flex flex-col h-full';
+                
+                // 转义用户输入，防止XSS攻击
+                const escapeHtml = (unsafe) => {
+                    if (!unsafe) return '';
+                    return unsafe
+                        .replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                };
+                
+                // 生成按钮部分
+                let buttonsHtml = `
+                    <div class="mt-auto">
+                        <a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center justify-center w-full">
+                            <i class="fa-solid fa-download mr-2"></i> 前往下载
+                        </a>
+                    </div>
+                `;
+                
+                // 如果有网盘链接，显示网盘分流按钮
+                if (item.pan && item.pan.trim() !== '') {
+                    buttonsHtml = `
+                        <div class="mt-auto flex gap-2">
+                            <a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center justify-center flex-1">
+                                <i class="fa-solid fa-download mr-2"></i> 前往下载
+                            </a>
+                            <a href="${escapeHtml(item.pan)}" target="_blank" rel="noopener noreferrer" class="btn-secondary inline-flex items-center justify-center flex-1">
+                                <i class="fa-solid fa-cloud mr-2"></i> 网盘分流
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                card.innerHTML = `
+                    <div class="relative mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <img src="${escapeHtml(item.logo)}" alt="${escapeHtml(item.name)}" class="w-10 h-10 object-contain">
+                            </div>
+                            <h3 class="text-lg font-semibold">${escapeHtml(item.name)}</h3>
+                        </div>
+                        ${item.version ? `<div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">v${escapeHtml(item.version)}</div>` : ''}
+                    </div>
+                    <p class="text-gray-600 mb-4 flex-grow">${escapeHtml(item.description)}</p>
+                    ${buttonsHtml}
+                `;
+                return card;
+            }
+        }
+
+        // 3. 交互功能模块
+        class InteractionManager {
+            static initMobileMenu() {
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
+
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            static initSourceDetailModal() {
+                const sourceDetailModal = document.getElementById('source-detail-modal');
+                const closeModalBtn = document.getElementById('close-modal-btn');
+                const confirmModalBtn = document.getElementById('confirm-modal-btn');
+                const copyModalLinkBtn = document.getElementById('copy-modal-link');
+
+                // 关闭弹窗
+                const closeModal = () => {
+                    sourceDetailModal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                };
+
+                closeModalBtn.addEventListener('click', closeModal);
+                confirmModalBtn.addEventListener('click', closeModal);
+
+                // 点击弹窗背景关闭弹窗
+                sourceDetailModal.addEventListener('click', (e) => {
+                    if (e.target === sourceDetailModal) {
+                        closeModal();
+                    }
+                });
+
+                // 复制订阅链接
+                copyModalLinkBtn.addEventListener('click', () => {
+                    const linkInput = document.getElementById('modal-link');
+                    linkInput.select();
+                    document.execCommand('copy');
+
+                    // 提示复制成功
+                    copyModalLinkBtn.textContent = '已复制';
+                    copyModalLinkBtn.classList.add('bg-green-600');
+
+                    setTimeout(() => {
+                        copyModalLinkBtn.innerHTML = '<i class="fa-solid fa-copy mr-1"></i> 复制';
+                        copyModalLinkBtn.classList.remove('bg-green-600');
+                    }, 1500);
+                });
+
+                // 复制M3U链接
+                const copyM3uLinkBtn = document.getElementById('copy-m3u-link');
+                if (copyM3uLinkBtn) {
+                    copyM3uLinkBtn.addEventListener('click', () => {
+                        const m3uLinkInput = document.getElementById('modal-m3u-link');
+                        m3uLinkInput.select();
+                        document.execCommand('copy');
+
+                        // 提示复制成功
+                        copyM3uLinkBtn.textContent = '已复制';
+                        copyM3uLinkBtn.classList.add('bg-green-600');
+
+                        setTimeout(() => {
+                            copyM3uLinkBtn.innerHTML = '<i class="fa-solid fa-copy mr-1"></i> 复制';
+                            copyM3uLinkBtn.classList.remove('bg-green-600');
+                        }, 1500);
+                    });
+                }
+
+                // 复制TXT链接
+                const copyTxtLinkBtn = document.getElementById('copy-txt-link');
+                if (copyTxtLinkBtn) {
+                    copyTxtLinkBtn.addEventListener('click', () => {
+                        const txtLinkInput = document.getElementById('modal-txt-link');
+                        txtLinkInput.select();
+                        document.execCommand('copy');
+
+                        // 提示复制成功
+                        copyTxtLinkBtn.textContent = '已复制';
+                        copyTxtLinkBtn.classList.add('bg-green-600');
+
+                        setTimeout(() => {
+                            copyTxtLinkBtn.innerHTML = '<i class="fa-solid fa-copy mr-1"></i> 复制';
+                            copyTxtLinkBtn.classList.remove('bg-green-600');
+                        }, 1500);
+                    });
+                }
+            }
+
+            static initSourceDetailBtns() {
+                const sourceDetailModal = document.getElementById('source-detail-modal');
+
+                // 转义用户输入，防止XSS攻击
+                const escapeHtml = (unsafe) => {
+                    return unsafe
+                        .replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                };
+
+                // 使用事件委托处理动态生成的按钮
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.source-detail-btn')) {
+                        const btn = e.target.closest('.source-detail-btn');
+                        const type = btn.dataset.type;
+                        const name = btn.dataset.name;
+                        const desc = btn.dataset.desc;
+
+                        // 填充弹窗内容，确保所有用户输入都被转义
+                        document.getElementById('modal-title').textContent = `${escapeHtml(name)} - 详情`;
+                        
+                        // 根据类型设置不同的处理逻辑
+                        if (type === 'iptv') {
+                            const m3uLink = btn.dataset.m3uLink;
+                            const txtLink = btn.dataset.txtLink;
+                            
+                            document.getElementById('modal-type').textContent = 'IPTV';
+                            document.getElementById('modal-type').className = 'px-2 py-1 bg-purple-100 text-purple-700 rounded text-sm';
+                            document.getElementById('modal-desc').textContent = escapeHtml(desc);
+                            
+                            // 隐藏通用订阅链接部分，显示IPTV链接部分
+                            document.getElementById('modal-link-section').classList.add('hidden');
+                            document.getElementById('iptv-links-section').classList.remove('hidden');
+                            document.getElementById('modal-m3u-link').value = escapeHtml(m3uLink);
+                            document.getElementById('modal-txt-link').value = escapeHtml(txtLink);
+                        } else {
+                            const link = btn.dataset.link;
+                            document.getElementById('modal-type').textContent = type === 'book' ? '开源阅读' : '影视仓';
+                            document.getElementById('modal-type').className = type === 'book' 
+                                ? 'px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm' 
+                                : 'px-2 py-1 bg-green-100 text-green-700 rounded text-sm';
+                            document.getElementById('modal-link').value = escapeHtml(link);
+                            document.getElementById('modal-desc').textContent = escapeHtml(desc);
+                            
+                            // 显示普通链接部分，隐藏IPTV链接部分
+                            document.getElementById('modal-link-section').classList.remove('hidden');
+                            document.getElementById('iptv-links-section').classList.add('hidden');
+                        }
+
+                        // 显示弹窗
+                        sourceDetailModal.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            }
+
+            static initBookImportBtns() {
+                // 使用事件委托处理动态生成的按钮
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.book-import-btn')) {
+                        const btn = e.target.closest('.book-import-btn');
+                        const sourceLink = btn.dataset.link;
+
+                        // 尝试打开intent链接，吊起应用
+                        try {
+                            // 在任何设备上都尝试打开导入链接
+                            window.location.href = sourceLink;
+                        } catch (error) {
+                            console.error('Error opening import link:', error);
+                            // 不显示错误提示
+                        }
+                    }
+                });
+            }
+
+            static initFormValidation() {
+                const sourceSubmitForm = document.getElementById('source-submit-form');
+                if (!sourceSubmitForm) return;
+
+                // 显示错误信息
+                const showError = (fieldId, message) => {
+                    const errorElement = document.getElementById(`${fieldId}-error`);
+                    if (!errorElement) return;
+                    const fieldElement = document.getElementById(fieldId);
+                    if (!fieldElement) return;
+                    errorElement.textContent = message;
+                    errorElement.classList.remove('hidden');
+                    fieldElement.classList.add('border-red-300');
+                };
+
+                // 隐藏错误信息
+                const hideError = (fieldId) => {
+                    const errorElement = document.getElementById(`${fieldId}-error`);
+                    if (!errorElement) return;
+                    const fieldElement = document.getElementById(fieldId);
+                    if (!fieldElement) return;
+                    errorElement.classList.add('hidden');
+                    fieldElement.classList.remove('border-red-300');
+                };
+
+                // 验证单个字段
+                const validateField = (fieldId, value, required, pattern, patternMessage) => {
+                    hideError(fieldId);
+                    
+                    if (required && !value) {
+                        showError(fieldId, '此字段为必填项');
+                        return false;
+                    }
+                    
+                    if (pattern && value && !pattern.test(value)) {
+                        showError(fieldId, patternMessage);
+                        return false;
+                    }
+                    
+                    return true;
+                };
+
+                // 实时验证
+                const sourceType = document.getElementById('source-type');
+                const sourceName = document.getElementById('source-name');
+                const sourceLink = document.getElementById('source-link');
+                const sourceDesc = document.getElementById('source-desc');
+
+                if (sourceType) {
+                    sourceType.addEventListener('change', () => {
+                        validateField('source-type', sourceType.value, true);
+                    });
+                }
+
+                if (sourceName) {
+                    sourceName.addEventListener('blur', () => {
+                        validateField('source-name', sourceName.value.trim(), true);
+                    });
+                }
+
+                if (sourceLink) {
+                    sourceLink.addEventListener('blur', () => {
+                        const linkRegex = /^https?:\/\/.+/;
+                        validateField('source-link', sourceLink.value.trim(), true, linkRegex, '请输入有效的HTTP/HTTPS订阅链接');
+                    });
+                }
+
+                if (sourceDesc) {
+                    sourceDesc.addEventListener('blur', () => {
+                        validateField('source-desc', sourceDesc.value.trim(), true);
+                    });
+                }
+
+                // 提交验证
+                sourceSubmitForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const sourceTypeValue = sourceType ? sourceType.value : '';
+                    const sourceNameValue = sourceName ? sourceName.value.trim() : '';
+                    const sourceLinkValue = sourceLink ? sourceLink.value.trim() : '';
+                    const sourceDescValue = sourceDesc ? sourceDesc.value.trim() : '';
+
+                    // 验证所有字段
+                    const isTypeValid = sourceType ? validateField('source-type', sourceTypeValue, true) : true;
+                    const isNameValid = sourceName ? validateField('source-name', sourceNameValue, true) : true;
+                    const isLinkValid = sourceLink ? validateField('source-link', sourceLinkValue, true, /^https?:\/\/.+/, '请输入有效的HTTP/HTTPS订阅链接') : true;
+                    const isDescValid = sourceDesc ? validateField('source-desc', sourceDescValue, true) : true;
+
+                    // 如果所有字段都有效
+                    if (isTypeValid && isNameValid && isLinkValid && isDescValid) {
+                        // 模拟提交过程
+                        const submitBtn = sourceSubmitForm.querySelector('button[type="submit"]');
+                        if (!submitBtn) return;
+                        const originalText = submitBtn.innerHTML;
+                        
+                        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 提交中...';
+                        submitBtn.disabled = true;
+
+                        setTimeout(() => {
+                            // 显示成功消息
+                            const successMessage = document.createElement('div');
+                            successMessage.className = 'bg-green-100 text-green-700 p-4 rounded-lg mb-4';
+                            successMessage.innerHTML = '<i class="fa-solid fa-check-circle mr-2"></i> 提交成功！我们将审核你的源，审核通过后会展示在平台上';
+                            
+                            sourceSubmitForm.insertBefore(successMessage, sourceSubmitForm.firstChild);
+                            
+                            // 重置表单
+                            sourceSubmitForm.reset();
+                            
+                            // 恢复提交按钮
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            
+                            // 3秒后移除成功消息
+                            setTimeout(() => {
+                                successMessage.remove();
+                            }, 3000);
+                        }, 1500);
+                    }
+                });
+            }
+
+            static initSmoothScroll() {
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+
+                        const targetId = this.getAttribute('href');
+                        if (targetId === '#') return;
+
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+
+                            // 关闭移动端菜单
+                            const mobileMenu = document.getElementById('mobile-menu');
+                            if (!mobileMenu.classList.contains('hidden')) {
+                                mobileMenu.classList.add('hidden');
+                            }
+                        }
+                    });
+                });
+            }
+
+            static initDarkMode() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const htmlElement = document.documentElement;
+                const themeIcon = themeToggle.querySelector('i');
+
+                // 加载保存的主题偏好
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    htmlElement.classList.add('dark');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+
+                // 切换主题
+                themeToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // 直接操作body元素，确保样式能够正确应用
+                    const bodyElement = document.body;
+                    bodyElement.classList.toggle('dark');
+                    htmlElement.classList.toggle('dark');
+                    
+                    if (bodyElement.classList.contains('dark')) {
+                        themeIcon.classList.remove('fa-moon');
+                        themeIcon.classList.add('fa-sun');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        themeIcon.classList.remove('fa-sun');
+                        themeIcon.classList.add('fa-moon');
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+
+            static initSearchToggle() {
+                const searchToggle = document.getElementById('search-toggle');
+                const searchContainer = document.getElementById('search-container');
+                
+                // 点击搜索图标切换搜索框显示/隐藏
+                searchToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    searchContainer.classList.toggle('hidden');
+                    
+                    // 如果显示搜索框，自动聚焦
+                    if (!searchContainer.classList.contains('hidden')) {
+                        document.getElementById('search-input').focus();
+                    }
+                });
+                
+                // 点击页面其他地方隐藏搜索框
+                document.addEventListener('click', (e) => {
+                    if (!searchToggle.contains(e.target) && !searchContainer.contains(e.target)) {
+                        searchContainer.classList.add('hidden');
+                    }
+                });
+            }
+
+            static initLazyLoad() {
+                // 检查是否支持Intersection Observer
+                if ('IntersectionObserver' in window) {
+                    const imageObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const image = entry.target;
+                                image.src = image.dataset.src;
+                                image.classList.remove('lazy');
+                                imageObserver.unobserve(image);
+                            }
+                        });
+                    });
+
+                    // 观察所有带有lazy类的图片
+                    document.querySelectorAll('img.lazy').forEach(img => {
+                        imageObserver.observe(img);
+                    });
+                } else {
+                    // 降级方案：立即加载所有图片
+                    document.querySelectorAll('img.lazy').forEach(img => {
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                    });
+                }
+            }
+
+
+        }
+
+        // 4. 应用初始化
+        class App {
+            // 静态属性初始化
+            static books = [];
+            static subscriptions = [];
+            static videos = [];
+            static iptv = [];
+            static download = [];
+            static currentBookFilterType = 'all';
+            static currentVideoFilterType = 'all';
+            static currentIptvFilterType = 'all';
+            static currentSearch = '';
+
+            static async init() {
+                try {
+                    console.log('Starting app initialization...');
+                    
+                    // 等待DOM完全加载
+                    if (document.readyState !== 'complete') {
+                        console.log('Waiting for DOM to be ready...');
+                        await new Promise(resolve => {
+                            window.addEventListener('load', resolve);
+                        });
+                        console.log('DOM is ready');
+                    }
+                    
+                    // 初始化交互功能（先于数据加载）
+                    console.log('Initializing interaction managers...');
+                    InteractionManager.initMobileMenu();
+                    InteractionManager.initSourceDetailModal();
+                    InteractionManager.initSourceDetailBtns();
+                    InteractionManager.initBookImportBtns();
+                    InteractionManager.initFormValidation();
+                    InteractionManager.initSmoothScroll();
+                    InteractionManager.initDarkMode();
+                    InteractionManager.initLazyLoad();
+                    InteractionManager.initSearchToggle();
+                    App.initFilterAndSearch();
+                    console.log('Interaction managers initialized');
+                    
+                    // 初始化数据
+                    console.log('Loading data...');
+                    await Promise.all([
+                        DataManager.loadData('books').then(data => {
+                            App.books = data || [];
+                            console.log('Books data loaded:', App.books);
+                        }),
+                        DataManager.loadData('Rss').then(data => {
+                            App.subscriptions = data || [];
+                            console.log('Subscriptions data loaded:', App.subscriptions);
+                        }),
+                        DataManager.loadData('purify').then(data => {
+                            App.purify = data || [];
+                            console.log('Purify data loaded:', App.purify);
+                        }),
+                        DataManager.loadData('readConfig').then(data => {
+                            App.readConfig = data || [];
+                            console.log('ReadConfig data loaded:', App.readConfig);
+                        }),
+                        DataManager.loadData('themes').then(data => {
+                            App.themes = data || [];
+                            console.log('Themes data loaded:', App.themes);
+                        }),
+                        DataManager.loadData('tts').then(data => {
+                            App.tts = data || [];
+                            console.log('TTS data loaded:', App.tts);
+                        }),
+                        DataManager.loadData('videos').then(data => {
+                            App.videos = data || [];
+                            console.log('Videos data loaded:', App.videos);
+                        }),
+                        DataManager.loadData('iptv').then(data => {
+                            App.iptv = data || [];
+                            console.log('IPTV data loaded:', App.iptv);
+                        }),
+                        DataManager.loadData('download').then(data => {
+                            App.download = data || [];
+                            console.log('Download data loaded:', App.download);
+                        })
+                    ]);
+                    
+                    // 初始化状态
+                    App.currentBookFilterType = 'all';
+                    App.currentVideoFilterType = 'all';
+                    App.currentIptvFilterType = 'all';
+                    App.currentSearch = '';
+                    console.log('Initialization status set');
+
+                    // 渲染数据
+                    console.log('Rendering data...');
+                    App.renderData();
+                    console.log('App initialization completed successfully!');
+                } catch (error) {
+                    console.error('Error initializing app:', error);
+                }
+            }
+
+            static filterDataBySearch(data, searchTerm) {
+                if (!data) return [];
+                if (!searchTerm) return data;
+                const searchLower = searchTerm.toLowerCase();
+                return data.filter(item => 
+                    item.name?.toLowerCase().includes(searchLower) || 
+                    item.description?.toLowerCase().includes(searchLower)
+                );
+            }
+
+            static renderData() {
+                console.log('Rendering data...');
+                console.log('Current book filter type:', App.currentBookFilterType);
+                console.log('Current video filter type:', App.currentVideoFilterType);
+                console.log('Current iptv filter type:', App.currentIptvFilterType);
+                console.log('Current search:', App.currentSearch);
+                console.log('Books data:', App.books);
+                console.log('Subscriptions data:', App.subscriptions);
+                console.log('Videos data:', App.videos);
+                console.log('IPTV data:', App.iptv);
+                console.log('Download data:', App.download);
+                
+                // 渲染下载数据
+                UIRenderer.renderDownloads(App.download);
+                
+                // 合并书源和订阅源
+                let allSources = [];
+                
+                // 按类型筛选
+                if (App.currentBookFilterType === 'all') {
+                    // 显示所有类型，添加来源标记
+                    const booksWithSource = (App.books || []).map(book => ({ ...book, sourceType: 'book' }));
+                    const subscriptionsWithSource = (App.subscriptions || []).map(sub => ({ ...sub, sourceType: 'subscribe' }));
+                    const purifyWithSource = (App.purify || []).map(purify => ({ ...purify, sourceType: 'purify' }));
+                    const readConfigWithSource = (App.readConfig || []).map(config => ({ ...config, sourceType: 'typesetting' }));
+                    const themesWithSource = (App.themes || []).map(theme => ({ ...theme, sourceType: 'theme' }));
+                    const ttsWithSource = (App.tts || []).map(tts => ({ ...tts, sourceType: 'tts' }));
+                    allSources = [...booksWithSource, ...subscriptionsWithSource, ...purifyWithSource, ...readConfigWithSource, ...themesWithSource, ...ttsWithSource];
+                } else if (App.currentBookFilterType === 'book') {
+                    // 只显示书源，添加来源标记
+                    allSources = (App.books || []).map(book => ({ ...book, sourceType: 'book' }));
+                } else if (App.currentBookFilterType === 'subscribe') {
+                    // 只显示订阅源，添加来源标记
+                    allSources = (App.subscriptions || []).map(sub => ({ ...sub, sourceType: 'subscribe' }));
+                } else if (App.currentBookFilterType === 'purify') {
+                    // 只显示净化规则
+                    allSources = (App.purify || []).map(purify => ({ ...purify, sourceType: 'purify' }));
+                } else if (App.currentBookFilterType === 'typesetting') {
+                    // 只显示阅读排版
+                    allSources = (App.readConfig || []).map(config => ({ ...config, sourceType: 'typesetting' }));
+                } else if (App.currentBookFilterType === 'theme') {
+                    // 只显示主题
+                    allSources = (App.themes || []).map(theme => ({ ...theme, sourceType: 'theme' }));
+                } else if (App.currentBookFilterType === 'tts') {
+                    // 只显示朗读引擎
+                    allSources = (App.tts || []).map(tts => ({ ...tts, sourceType: 'tts' }));
+                }
+                
+                // 应用搜索过滤
+                const filteredBookSources = App.filterDataBySearch(allSources, App.currentSearch);
+                
+                // 渲染书源数据
+                UIRenderer.renderBooks(filteredBookSources);
+                
+                // 渲染视频数据
+                let filteredVideos = App.videos || [];
+                if (App.currentVideoFilterType !== 'all') {
+                    filteredVideos = filteredVideos.filter(video => {
+                        if (App.currentVideoFilterType === 'single') {
+                            return video.type === '单仓';
+                        } else if (App.currentVideoFilterType === 'multiple') {
+                            return video.type === '多仓';
+                        }
+                        return true;
+                    });
+                }
+                filteredVideos = App.filterDataBySearch(filteredVideos, App.currentSearch);
+                UIRenderer.renderVideos(filteredVideos);
+                
+                // 渲染IPTV数据
+                let filteredIptv = App.iptv || [];
+                if (App.currentIptvFilterType !== 'all') {
+                    filteredIptv = filteredIptv.filter(iptv => iptv.type && iptv.type.toLowerCase() === App.currentIptvFilterType);
+                }
+                filteredIptv = App.filterDataBySearch(filteredIptv, App.currentSearch);
+                UIRenderer.renderIptv(filteredIptv);
+            }
+
+            static initFilterAndSearch() {
+                // 书源类型筛选
+                document.querySelectorAll('.book-type-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // 移除所有按钮的活动状态
+                        document.querySelectorAll('.book-type-filter-btn').forEach(b => {
+                            b.classList.remove('bg-primary', 'text-white');
+                            b.classList.add('bg-gray-100');
+                        });
+                        // 添加当前按钮的活动状态
+                        btn.classList.remove('bg-gray-100');
+                        btn.classList.add('bg-primary', 'text-white');
+                        // 更新筛选类型并重新渲染
+                        App.currentBookFilterType = btn.dataset.filterType;
+                        App.renderData();
+                    });
+                });
+                
+                // 视频类型筛选
+                document.querySelectorAll('.video-type-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // 移除所有按钮的活动状态
+                        document.querySelectorAll('.video-type-filter-btn').forEach(b => {
+                            b.classList.remove('bg-primary', 'text-white');
+                            b.classList.add('bg-gray-100');
+                        });
+                        // 添加当前按钮的活动状态
+                        btn.classList.remove('bg-gray-100');
+                        btn.classList.add('bg-primary', 'text-white');
+                        // 更新筛选类型并重新渲染
+                        App.currentVideoFilterType = btn.dataset.filterType;
+                        App.renderData();
+                    });
+                });
+                
+                // IPTV类型筛选
+                document.querySelectorAll('.iptv-type-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // 移除所有按钮的活动状态
+                        document.querySelectorAll('.iptv-type-filter-btn').forEach(b => {
+                            b.classList.remove('bg-primary', 'text-white');
+                            b.classList.add('bg-gray-100');
+                        });
+                        // 添加当前按钮的活动状态
+                        btn.classList.remove('bg-gray-100');
+                        btn.classList.add('bg-primary', 'text-white');
+                        // 更新筛选类型并重新渲染
+                        App.currentIptvFilterType = btn.dataset.filterType;
+                        App.renderData();
+                    });
+                });
+                
+                // 搜索功能
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.addEventListener('input', utils.debounce((e) => {
+                        App.currentSearch = e.target.value;
+                        App.renderData();
+                    }, 300));
+                }
+            }
+        }
+
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', App.init);
+    </script>
+</body>
+</html>

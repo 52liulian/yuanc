@@ -1,0 +1,125 @@
+name: 提交新源
+description: 提交优质的书源、影视仓或IPTV源
+title: "[提交源] 源名称"
+labels: ["新源提交"]
+assignees: []
+
+body:
+  - type: dropdown
+    id: source-type
+    attributes:
+      label: 源类型
+      description: 请选择你要提交的源类型
+      options:
+        - 书源 (Book Source)
+        - 净化规则 (Purify Rule)
+        - 阅读排版 (Read Config)
+        - 朗读引擎 (TTS)
+        - 主题 (Theme)
+        - 影视仓 (Video Source)
+        - IPTV (IPTV Source)
+    validations:
+      required: true
+
+  - type: input
+    id: source-name
+    attributes:
+      label: 源名称
+      description: 请输入源的名称
+      placeholder: 例如：精品网络小说源
+    validations:
+      required: true
+
+  - type: input
+    id: source-link
+    attributes:
+      label: 源链接
+      description: 请输入源的订阅链接，确保链接可以正常访问
+      placeholder: 例如：https://example.com/book/source.json
+    validations:
+      required: true
+
+  - type: textarea
+    id: source-description
+    attributes:
+      label: 源描述
+      description: 请简要描述源的特点、内容类型、更新频率等信息
+      placeholder: 例如：涵盖全网主流网络小说，实时更新，无广告，支持缓存和章节跳转
+    validations:
+      required: true
+
+  - type: input
+    id: source-author
+    attributes:
+      label: 源作者
+      description: 请输入源的作者或提供者
+      placeholder: 例如：网络分享
+    validations:
+      required: true
+
+  - type: input
+    id: source-update-time
+    attributes:
+      label: 更新时间
+      description: 请输入源的最后更新时间
+      placeholder: 例如：2026-01-28
+    validations:
+      required: true
+
+  - type: dropdown
+    id: source-category
+    attributes:
+      label: 源分类
+      description: 请选择源的分类
+      options:
+        - 小说
+        - 名著
+        - 杂志
+        - 漫画
+        - 影视
+        - 直播
+        - 其他
+    validations:
+      required: true
+
+  - type: dropdown
+    id: source-status
+    attributes:
+      label: 源状态
+      description: 请选择源的当前状态
+      options:
+        - 稳定
+        - 优质
+        - 最新
+        - 测试
+    validations:
+      required: true
+
+  - type: textarea
+    id: source-notes
+    attributes:
+      label: 备注信息
+      description: 请输入其他需要说明的信息（可选）
+      placeholder: 例如：建议使用最新版本的客户端
+    validations:
+      required: false
+
+  - type: input
+    id: contact-info
+    attributes:
+      label: 联系方式（可选）
+      description: 用于反馈结果
+      placeholder: GitHub用户名或邮箱地址
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 提交须知
+      description: 请确认你已阅读并同意以下内容
+      options:
+        - label: 我确认提交的源链接是可访问的
+          required: true
+        - label: 我确认提交的信息是准确的
+          required: true

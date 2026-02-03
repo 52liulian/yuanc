@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "name": "开源阅读",
+    "version": "3.25",
+    "logo": "https://youke.xn--y7xa690gmna.cn/s1/2026/02/02/69804933e98c0.webp",
+    "author": "gedoor",
+    "type": "阅读",
+    "description": "一款功能强大的开源阅读软件，支持多种书源和自定义配置。",
+    "link": "https://github.com/gedoor/legado/releases",
+    "pan": "https://pan.quark.cn/s/d3df8a2747db",
+    "updateTime": "2026-02-02"
+  },
+  {
+    "id": "2",
+    "name": "影视仓",
+    "version": "6.1.7",
+    "logo": "https://gimg0.baidu.com/gimg/app=2001&n=0&g=0n&fmt=jpeg&src=s1.imagehub.cc/images/2023/07/01/ysc.png",
+    "author": "影视仓团队",
+    "type": "视频",
+    "description": "一款优秀的开源影视播放器，支持安卓手机和电视盒子。",
+    "link": "https://pan.quark.cn/s/e9f04886d234#/list/share",
+    "pan": "https://pan.quark.cn/s/5d2be5d5c454",
+    "updateTime": "2026-02-02"
+  },
+  {
+    "id": "3",
+    "name": "TVBox",
+    "version": "20251127-1156",
+    "logo": "https://yinghezhinan.com/wp-content/uploads/2025/04/c16aafa96086cb27285526796862ab1f6015.webp",
+    "author": "takagen99",
+    "type": "视频",
+    "description": "一款开源的电视盒子软件，支持多种影视源和直播源。",
+    "link": "https://github.com/j4Uq/TVBoxOSC/releases",
+    "pan": "",
+    "updateTime": "2026-02-02"
+  }
+]
