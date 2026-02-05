@@ -16,5 +16,23 @@
     "link": "data/legado/themes/eew22rf.json",
     "updateTime": "2025-02-11",
     "category": "主题"
+  },
+  {
+    "id": "3",
+    "name": "厚墨 - 日间 🔥",
+    "author": "未知",
+    "description": "厚墨 - 日间 🔥",
+    "link": "data/legado/themes/bc26bb5e.json",
+    "updateTime": "2025-02-11",
+    "category": "主题"
+  },
+  {
+    "id": "4",
+    "name": "厚墨 - 夜间 🔥",
+    "author": "未知",
+    "description": "厚墨 - 夜间 🔥",
+    "link": "data/legado/themes/39c60133.json",
+    "updateTime": "2025-02-11",
+    "category": "主题"
   }
 ]

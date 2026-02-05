@@ -2,21 +2,21 @@
   {
     "id": "1",
     "name": "全频道直播源",
-    "author": "稳定",
+    "author": "hacks",
     "type": "ipv4",
-    "description": "包含央视、卫视等主流电视频道，稳定清晰，支持倍速播放；适配各种IPTV客户端。",
-    "m3u-link": "https://www.liulian.ink/iptv-live/tv/iptv4.m3u",
-    "txt-link": "https://www.liulian.ink/iptv-live/tv/iptv4.txt",
+    "description": "包含央视、卫视等主流电视频道，稳定清晰，每天自动更新。",
+    "m3u-link": "https://live.hacks.tools/tv/iptv4.m3u",
+    "txt-link": "https://live.hacks.tools/tv/iptv4.txt",
     "updateTime": "2026-02-03"
   },
   {
     "id": "2",
     "name": "全频道直播源",
-    "author": "优质",
+    "author": "hacks",
     "type": "ipv6",
-    "description": "包含央视、卫视等主流电视频道，稳定清晰，支持倍速播放；适配各种IPTV客户端。",
-    "m3u-link": "https://www.liulian.ink/iptv-live/tv/iptv6.m3u",
-    "txt-link": "https://www.liulian.ink/iptv-live/tv/iptv6.txt",
+    "description": "包含央视、卫视等主流电视频道，稳定清晰，每天自动更新。",
+    "m3u-link": "https://live.hacks.tools/tv/iptv6.m3u",
+    "txt-link": "https://live.hacks.tools/tv/iptv6.txt",
     "updateTime": "2026-02-03"
   }
 ]
